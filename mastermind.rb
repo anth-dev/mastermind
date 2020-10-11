@@ -34,6 +34,7 @@ end
 
 # This class makes Mastermind game objects.
 class Mastermind
+  # Remove access at some point! Using the secret_code reader for testing only.
   attr_reader :secret_code
 
   def initialize
@@ -69,11 +70,6 @@ class Mastermind
     puts '-' * 14
   end
 end
-
-# Below is a test of the display.
-# puts '-' * 14
-# puts '|' + '0'.red + '|' + '0'.blue + '|' + '0'.yellow + '|' + '0'.light_blue + '|' + '....' + '|'
-# puts '-' * 14
 
 test_game = Mastermind.new
 # To test the display we are displaying the secret pattern generated.
