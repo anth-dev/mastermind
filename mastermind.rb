@@ -59,14 +59,14 @@ class Mastermind
     when 6
       '0'.light_blue
     when 7
-      '0'
+      ' '
     end
   end
 
-  def display(spot, feedback)
-  puts '-' * 14
-  puts "|#{spot[0]}|#{spot[1]}|#{spot[2]}|#{spot[3]}|#{feedback[0]}#{feedback[1]}#{feedback[2]}#{feedback[3]}|"
-  puts '-' * 14
+  def display(display_array, feedback_array)
+    puts '-' * 14
+    puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}|"
+    puts '-' * 14
   end
 end
 
@@ -76,4 +76,5 @@ end
 # puts '-' * 14
 
 test_game = Mastermind.new
-test_game.display(test_game.secret_code, ['.','.','.','.'])
+# To test the display we are displaying the secret pattern generated.
+test_game.display(test_game.secret_code, [' ', ' ', ' ', ' '])
