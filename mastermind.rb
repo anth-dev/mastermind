@@ -64,7 +64,7 @@ class Mastermind
     end
   end
 
-  def display(display_array, feedback_array)
+  def display(display_array, feedback_array = [' ', ' ', ' ', ' '])
     puts '-' * 14
     puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}|"
     puts '-' * 14
@@ -73,4 +73,4 @@ end
 
 test_game = Mastermind.new
 # To test the display we are displaying the secret pattern generated.
-test_game.display(test_game.secret_code, [' ', ' ', ' ', ' '])
+test_game.display(test_game.secret_code)
