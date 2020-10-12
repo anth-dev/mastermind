@@ -57,6 +57,17 @@ class Mastermind
   def take_turn
     # FIXME: After all 4 choices have been made feedback needs to be calculated
     #   to be displayed to the player and saved to the feedback history array.
+    #   - make instance variable to hold current feedback
+    #   - after the completed guess array has been made duplicate the secret code
+    #     array and iterate over the completed guess.
+    #     - for each element of the guess array first check if it is both the
+    #       correct color and in the correct place. If so then push '.'.red to
+    #       the feedback array and either remove or replace the corresponding
+    #       element from the duplicated secret code array. If the check came
+    #       back false instead check if that color is contained 
+
+    # note ^^^^^ check rules to see if all the black pegs need to be placed first
+    # can it be messed up if they aren't placed in the right order????
 
     # For each of the four spots have the player input their choice and add
     # their choice to the current guess array.
