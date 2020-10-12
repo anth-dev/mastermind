@@ -154,8 +154,8 @@ puts 'Welcome to Mastermind!'
 puts '~' * 22
 puts ''
 puts 'Colors may be repeated and blank spaces are allowed.'
-puts 'Enter your first guess to continue'
-puts ''
+puts 'Press enter to continue.'
+gets
 
 game = Mastermind.new
 game.start
