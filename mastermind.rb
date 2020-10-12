@@ -51,7 +51,6 @@ class Mastermind
 
   def start
     until @number_of_guesses == 13 || @solved == true
-      display
       take_turn
     end
   end
@@ -59,9 +58,13 @@ class Mastermind
   private
 
   def take_turn
+    display
 
-
-    # TODO: Get input
+    # FIXME: When each choice is made push it to the current guess array and
+    #   update the display to show the choice. After all 4 choices have been
+    #   made feedback needs to be calculated to be displayed to the player.
+    #   The completed current_guess array needs to be added as an element to
+    #   the guess history array as well.
     4.times do
       
     end
