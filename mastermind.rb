@@ -67,12 +67,22 @@ class Mastermind
       @current_guess[i] = handle_selection
     end
 
+    # Check to see if they cracked the code!
+    check_for_win
+
     # After their guess has been made add it to the guess history.
     @guess_history.push(@current_guess)
     @current_guess = [' ', ' ', ' ', ' ']
 
     # Increment the number of guesses.
     @number_of_guesses += 1
+  end
+
+  def check_for_win
+    return unless @current_guess == @secret_code
+
+    puts "You win!"
+    exit
   end
 
   def handle_selection
