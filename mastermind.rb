@@ -148,6 +148,7 @@ class Mastermind
   end
 end
 
+system 'clear'
 puts '~' * 22
 puts 'Welcome to Mastermind!'
 puts '~' * 22
