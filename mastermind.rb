@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+require 'pry'
+
 # This class adds support for colorful strings.
 class String
-  # colorization
   def colorize(color_code)
     "\e[#{color_code}m#{self}\e[0m"
   end
@@ -40,7 +41,7 @@ class Mastermind
   def initialize
     @secret_code = generate_random_code
     # Maybe have a default value for the current_guess array to be ' '.
-    @current_guess = []
+    @current_guess = [' ', ' ', ' ', ' ']
     # Previous guess arrays will be stored as elements of of an array so the
     # guess history can be displayed.
     @guess_history = []
@@ -50,7 +51,7 @@ class Mastermind
   end
 
   def start
-    while @number_of_guesses < 13 || !@solved
+    while @number_of_guesses <= 12
       take_turn
     end
   end
@@ -58,19 +59,46 @@ class Mastermind
   private
 
   def take_turn
-    display
+    # FIXME: After all 4 choices have been made feedback needs to be calculated
+    #   to be displayed to the player and saved along with the guess to the
+    #   guess history.
 
-    # FIXME: When each choice is made push it to the current guess array and
-    #   update the display to show the choice. After all 4 choices have been
-    #   made feedback needs to be calculated to be displayed to the player.
-    #   The completed current_guess array needs to be added as an element to
-    #   the guess history array as well.
-    4.times do
-      
+    # For each of the four spots have the player input their choice and add
+    # their choice to the current_guess array.
+    4.times do |i|
+      display(@current_guess)
+      puts '>'
+      @current_guess[i] = handle_selection
     end
+
+    # After their guess has been made add it to the guess history.
+    @guess_history.push(@current_guess)
+    @current_guess = [' ', ' ', ' ', ' ']
 
     # Increment the number of guesses.
     @number_of_guesses += 1
+  end
+
+  def handle_selection
+    selection = gets.chomp
+    case selection
+    when '1'
+      '0'.red
+    when '2'
+      '0'.green
+    when '3'
+      '0'.yellow
+    when '4'
+      '0'.blue
+    when '5'
+      '0'.pink
+    when '6'
+      '0'.light_blue
+    when '7'
+      ' '
+    else
+      handle_selection
+    end
   end
 
   def generate_random_code
@@ -100,7 +128,7 @@ class Mastermind
     # TODO: Add code to call the not yet made method to display the guess
     #   history (if there is one) whenever this method is called. Also display
     #   the current guess the player is on.
-
+    system 'clear'
     puts '-' * 14
     puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
     puts '-' * 14
