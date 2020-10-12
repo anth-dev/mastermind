@@ -46,14 +46,29 @@ class Mastermind
     @guess_history = []
     # Or should I just track the number of guesses?
     @number_of_guesses = 1
+    @solved = false
   end
 
-  def take_turn
-    # The following is test code!
-    display(secret_code)
+  def start
+    until @number_of_guesses == 13 || @solved == true
+      display
+      take_turn
+    end
   end
 
   private
+
+  def take_turn
+
+
+    # TODO: Get input
+    4.times do
+      
+    end
+
+    # Increment the number of guesses.
+    @number_of_guesses += 1
+  end
 
   def generate_random_code
     [pick_a_color, pick_a_color, pick_a_color, pick_a_color]
@@ -87,16 +102,18 @@ class Mastermind
     puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
     puts '-' * 14
 
+    # List the options for the player.
+    puts "#{'1'.red} #{'2'.green} #{'3'.yellow} #{'4'.blue} #{'5'.pink} #{'6'.light_blue} 7 is empty"
   end
 end
 
-puts "~" * 22
-puts "Welcome to Mastermind!"
-puts "~" * 22
+puts '~' * 22
+puts 'Welcome to Mastermind!'
+puts '~' * 22
 puts ''
-puts "Colors may be repeated and blank spaces are allowed."
-puts "Enter your first guess to continue"
+puts 'Colors may be repeated and blank spaces are allowed.'
+puts 'Enter your first guess to continue'
 puts ''
 
 game = Mastermind.new
-game.take_turn
+game.start
