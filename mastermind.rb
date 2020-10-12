@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Add colorful string support.
+# This class adds support for colorful strings.
 class String
   # colorization
   def colorize(color_code)
@@ -34,11 +34,17 @@ end
 
 # This class makes Mastermind game objects.
 class Mastermind
-  # Remove access at some point! Using the secret_code reader for testing only.
+  # TODO: Remove access at some point! Using the secret_code reader for testing.
   attr_reader :secret_code
 
   def initialize
     @secret_code = generate_random_code
+    @current_guess = []
+    # Previous guess arrays will be stored as elements of of an array so the
+    # guess history can be displayed.
+    @guess_history = []
+    # Or should I just track the number of guesses?
+    @guesses_remaining = 12
   end
 
   def generate_random_code
@@ -64,7 +70,10 @@ class Mastermind
     end
   end
 
-  def display(display_array, feedback_array = [' ', ' ', ' ', ' '])
+  def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
+    # TODO: Add code to call the not yet made method to display the guess
+    #   history (if there is one) whenever this method is called.
+
     puts '-' * 14
     puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}|"
     puts '-' * 14
@@ -74,3 +83,4 @@ end
 test_game = Mastermind.new
 # To test the display we are displaying the secret pattern generated.
 test_game.display(test_game.secret_code)
+test_game.display
