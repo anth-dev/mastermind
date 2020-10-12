@@ -35,18 +35,12 @@ end
 
 # This class makes Mastermind game objects.
 class Mastermind
-  # TODO: Remove access at some point! Using the secret_code reader for testing.
-  attr_reader :secret_code
 
   def initialize
     @secret_code = generate_random_code
-    # Maybe have a default value for the current_guess array to be ' '.
     @current_guess = [' ', ' ', ' ', ' ']
-    # Previous guess arrays will be stored as elements of of an array so the
-    # guess history can be displayed.
     @guess_history = []
     @feedback_history = []
-    # Or should I just track the number of guesses?
     @number_of_guesses = 1
     @solved = false
   end
@@ -55,17 +49,18 @@ class Mastermind
     while @number_of_guesses <= 12
       take_turn
     end
+    puts "You lose! You're out of turns."
   end
 
   private
 
   def take_turn
     # FIXME: After all 4 choices have been made feedback needs to be calculated
-    #   to be displayed to the player and saved along with the guess to the
-    #   guess history.
+    #   to be displayed to the player and saved to the feedback history array.
+    #   If they guess correct, declare them the winner!
 
     # For each of the four spots have the player input their choice and add
-    # their choice to the current_guess array.
+    # their choice to the current guess array.
     4.times do |i|
       display(@current_guess)
       puts '>'
@@ -126,16 +121,14 @@ class Mastermind
   end
 
   def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
-    # TODO: Add code to call the not yet made method to display the guess
-    #   history (if there is one) whenever this method is called. Also display
-    #   the current guess the player is on.
+    # Display the guess history and gameboard.
     system 'clear'
     display_history
     puts '-' * 14
     puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
     puts '-' * 14
 
-    # List the options for the player.
+    # List the selection options for the player.
     puts "#{'1'.red} #{'2'.green} #{'3'.yellow} #{'4'.blue} #{'5'.pink} #{'6'.light_blue} 7 is empty"
   end
 
