@@ -50,7 +50,7 @@ class Mastermind
   end
 
   def start
-    until @number_of_guesses == 13 || @solved == true
+    while @number_of_guesses < 13 || !@solved
       take_turn
     end
   end
