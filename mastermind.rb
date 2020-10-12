@@ -58,13 +58,17 @@ class Mastermind
     # FIXME: After all 4 choices have been made feedback needs to be calculated
     #   to be displayed to the player and saved to the feedback history array.
     #   - make instance variable to hold current feedback
-    #   - after the completed guess array has been made duplicate the secret code
-    #     array and iterate over the completed guess.
-    #     - for each element of the guess array first check if it is both the
+    #   - after the completed guess array has been made duplicate it and the secret
+    #     code array and iterate over the duplicated guess array
+    #     - for each element of the guess array check if it is both the
     #       correct color and in the correct place. If so then push '.'.red to
-    #       the feedback array and either remove or replace the corresponding
-    #       element from the duplicated secret code array. If the check came
-    #       back false instead check if that color is contained 
+    #       the feedback array and replace the corresponding element from the
+    #       duplicated secret code array with 'x' and do the same for the
+    #       duplicated guess array.
+    #     - after iterating over it and placing red feedback pegs iterate over
+    #       the guess array and do the same but checking for colors in the wrong
+    #       place
+
 
     # note ^^^^^ check rules to see if all the black pegs need to be placed first
     # can it be messed up if they aren't placed in the right order????
