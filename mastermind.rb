@@ -57,7 +57,6 @@ class Mastermind
   def take_turn
     # FIXME: After all 4 choices have been made feedback needs to be calculated
     #   to be displayed to the player and saved to the feedback history array.
-    #   If they guess correct, declare them the winner!
 
     # For each of the four spots have the player input their choice and add
     # their choice to the current guess array.
