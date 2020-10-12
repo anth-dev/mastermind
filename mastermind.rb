@@ -44,8 +44,15 @@ class Mastermind
     # guess history can be displayed.
     @guess_history = []
     # Or should I just track the number of guesses?
-    @guesses_remaining = 12
+    @number_of_guesses = 1
   end
+
+  def take_turn
+    # The following is test code!
+    display(secret_code)
+  end
+
+  private
 
   def generate_random_code
     [pick_a_color, pick_a_color, pick_a_color, pick_a_color]
@@ -72,15 +79,15 @@ class Mastermind
 
   def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
     # TODO: Add code to call the not yet made method to display the guess
-    #   history (if there is one) whenever this method is called.
+    #   history (if there is one) whenever this method is called. Also display
+    #   the current guess the player is on.
 
     puts '-' * 14
-    puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}|"
+    puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
     puts '-' * 14
+
   end
 end
 
-test_game = Mastermind.new
-# To test the display we are displaying the secret pattern generated.
-test_game.display(test_game.secret_code)
-test_game.display
+game = Mastermind.new
+game.take_turn
