@@ -39,6 +39,7 @@ class Mastermind
 
   def initialize
     @secret_code = generate_random_code
+    # Maybe have a default value for the current_guess array to be ' '.
     @current_guess = []
     # Previous guess arrays will be stored as elements of of an array so the
     # guess history can be displayed.
@@ -88,6 +89,14 @@ class Mastermind
 
   end
 end
+
+puts "~" * 22
+puts "Welcome to Mastermind!"
+puts "~" * 22
+puts ''
+puts "Colors may be repeated and blank spaces are allowed."
+puts "Enter your first guess to continue"
+puts ''
 
 game = Mastermind.new
 game.take_turn
