@@ -34,9 +34,7 @@ end
 # This class makes Mastermind game objects.
 class Mastermind
   def initialize
-    # Define a specific secret code for testing guess feedback.
-    @secret_code = ['0'.red, '0'.green, '0'.yellow, '0'.blue]
-    # @secret_code = generate_random_code
+    @secret_code = generate_random_code
     @current_guess = [' ', ' ', ' ', ' ']
     @guess_history = []
     @current_feedback = [' ', ' ', ' ', ' ']
