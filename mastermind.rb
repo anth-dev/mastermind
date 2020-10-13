@@ -40,7 +40,6 @@ class Mastermind
     @current_feedback = [' ', ' ', ' ', ' ']
     @feedback_history = []
     @number_of_guesses = 1
-    @solved = false
   end
 
   def start_codebreaker
@@ -53,15 +52,27 @@ class Mastermind
     @secret_code = [' ', ' ', ' ', ' ']
 
     # Have the player input a secret code.
-    4.times do |i|
-      display(@secret_code)
-      puts '>'
-      @secret_code[i] = handle_selection
-    end
+    input_secret_code
 
     # Give the computer 12 guesses to randomly guess what the code is.
     computer_turn while @number_of_guesses <= 12
     puts 'You win! The computer ran out of turns.'
+  end
+
+  def start_local_multiplayer
+    system 'clear'
+
+    # Prompt for the codebreaker not to look and for the codemaker to input the
+    # secret code.
+    puts 'Codebreaker - Please leave the room while the Codemaker selects the secret code'
+    puts 'Press enter to continue.'
+    gets
+
+    # Have the player input a secret code.
+    input_secret_code
+
+    # Start the codebreaker game.
+    start_codebreaker
   end
 
   private
@@ -181,7 +192,7 @@ class Mastermind
   def check_for_codebreaker_win
     return unless @current_guess == @secret_code
 
-    puts "You win! You guessed the computer's code"
+    puts "You win! You guessed the Codemaker's code"
     # Display winning code.
     puts "|#{@current_guess[0]}|#{@current_guess[1]}|#{@current_guess[2]}|#{@current_guess[3]}|"
     exit
@@ -231,6 +242,16 @@ class Mastermind
       ' '
     end
   end
+  
+  def input_secret_code
+    # Clear any currently set secret code so the display doesn't get confused.
+    @secret_code = [' ', ' ', ' ', ' ']
+    4.times do |i|
+      display(@secret_code)
+      puts '>'
+      @secret_code[i] = handle_selection
+    end
+  end
 
   def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
     # Display the guess history and gameboard.
@@ -265,7 +286,7 @@ def display_main_menu
   puts 'Enter your choice to continue.'
   puts '1. Single Player - Codebreaker'
   puts '2. Single Player - Codemaker'
-  puts '3. Local Multiplayer **not working**'
+  puts '3. Local Multiplayer'
   puts '4. Exit'
   puts '>'
 end
@@ -279,8 +300,7 @@ def handle_main_menu(game)
   when '2'
     game.start_codemaker
   when '3'
-    display_main_menu
-    handle_main_menu(game)
+    game.start_local_multiplayer
   when '4'
     exit
   else
