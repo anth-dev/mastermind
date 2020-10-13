@@ -48,7 +48,47 @@ class Mastermind
     puts "You lose! You're out of turns."
   end
 
+  def start_codemaker
+    # Clear the secret code generated when the game object was generated.
+    @secret_code = [' ', ' ', ' ', ' ']
+
+    # Have the player input a secret code.
+    4.times do |i|
+      display(@secret_code)
+      puts '>'
+      @secret_code[i] = handle_selection
+    end
+
+    # Give the computer 12 guesses to randomly guess what the code is.
+    computer_turn while @number_of_guesses <= 12
+    puts 'You win! The computer ran out of turns.'
+  end
+
   private
+
+  def computer_turn
+    # Have the computer take a guess
+    @current_guess = generate_random_code
+
+    # Display the guess
+    display(@current_guess)
+
+    # Check for a computer win.
+    check_for_codemaker_loss(@current_guess)
+
+    # Generate feedback to display about the computer's guesses.
+    generate_feedback
+
+    # Add the computer's guess to the guess history.
+    @guess_history.push(@current_guess)
+
+    # Add the generated feedback to the feedback history.
+    @feedback_history.push(@current_feedback)
+    @current_feedback = [' ', ' ', ' ', ' ']
+
+    # Increment the number of guesses.
+    @number_of_guesses += 1
+  end
 
   def take_turn
     # For each of the four spots have the player input their choice and add
@@ -60,7 +100,7 @@ class Mastermind
     end
 
     # Check to see if they cracked the code!
-    check_for_win
+    check_for_codebreaker_win
 
     # Generate feedback to display to the player.
     generate_feedback
@@ -129,10 +169,19 @@ class Mastermind
     end
   end
 
-  def check_for_win
+  def check_for_codemaker_loss(computer_guess)
+    return unless computer_guess == @secret_code
+
+    puts 'You lose! The computer guessed your code.'
+    # Display winning code.
+    puts "|#{@current_guess[0]}|#{@current_guess[1]}|#{@current_guess[2]}|#{@current_guess[3]}|"
+    exit
+  end
+
+  def check_for_codebreaker_win
     return unless @current_guess == @secret_code
 
-    puts 'You win!'
+    puts "You win! You guessed the computer's code"
     # Display winning code.
     puts "|#{@current_guess[0]}|#{@current_guess[1]}|#{@current_guess[2]}|#{@current_guess[3]}|"
     exit
@@ -204,10 +253,7 @@ class Mastermind
 end
 
 # TODO: Add a 2 player mode where one human picks the code and another tries
-#   to crack the code.
-
-# TODO: Change it from 'Enter to continue' to give a choice on being the
-#   codemaker or codebreaker. If they want to be the codemaker have them
+#   to crack the code. (not a requirement of project)
 
 def display_main_menu
   system 'clear'
@@ -218,7 +264,7 @@ def display_main_menu
   puts 'Colors may be repeated and blank spaces are allowed.'
   puts 'Enter your choice to continue.'
   puts '1. Single Player - Codebreaker'
-  puts '2. Single Player - Codemaker **not working**'
+  puts '2. Single Player - Codemaker'
   puts '3. Local Multiplayer **not working**'
   puts '4. Exit'
   puts '>'
@@ -231,8 +277,7 @@ def handle_main_menu(game)
   when '1'
     game.start_codebreaker
   when '2'
-    display_main_menu
-    handle_main_menu(game)
+    game.start_codemaker
   when '3'
     display_main_menu
     handle_main_menu(game)
@@ -245,5 +290,4 @@ def handle_main_menu(game)
 end
 
 game = Mastermind.new
-
 handle_main_menu(game)
