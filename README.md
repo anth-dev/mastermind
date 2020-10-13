@@ -7,3 +7,5 @@ You can play the following game modes.
 * Codebreaker vs Computer
 * Codemaker vs Computer
 * Local multiplayer
+
+[Play live on Repl.it](https://repl.it/@anthdev/mastermind)
