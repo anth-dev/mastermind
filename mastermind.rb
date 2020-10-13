@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 # This class adds support for colorful strings.
 class String
   def colorize(color_code)
@@ -35,8 +33,8 @@ end
 
 # This class makes Mastermind game objects.
 class Mastermind
-
   def initialize
+    # Define a specific secret code for testing guess feedback.
     @secret_code = ['0'.red, '0'.green, '0'.yellow, '0'.blue]
     # @secret_code = generate_random_code
     @current_guess = [' ', ' ', ' ', ' ']
@@ -48,24 +46,13 @@ class Mastermind
   end
 
   def start
-    while @number_of_guesses <= 12
-      take_turn
-    end
+    take_turn while @number_of_guesses <= 12
     puts "You lose! You're out of turns."
   end
 
   private
 
   def take_turn
-    # FIXME: After all 4 choices have been made feedback needs to be calculated
-    #   to be displayed to the player and saved to the feedback history array.
-    #   - make instance variable to hold current feedback (or use method scope)
-    #   - after the completed guess array has been made duplicate it and the secret
-    #     code array and iterate over the duplicated guess array
-    #     - after iterating over it and placing red feedback pegs iterate over
-    #       the guess array and do the same but checking for colors in the wrong
-    #       place *starting on*
-
     # For each of the four spots have the player input their choice and add
     # their choice to the current guess array.
     4.times do |i|
@@ -103,30 +90,53 @@ class Mastermind
 
     # Check each guess element for correct color & placement.
     guess.each_with_index do |element, index|
-      # If it is the correct color in the correct spot, 
-      if element == secret[index]
-        # Select current element in the feedback array using feedback_index as
-        # the index and set it to a red '.'.
-        @current_feedback[feedback_index] = '.'.red
-        
-        # Replace the element in secret with nil.
-        secret[index] = nil
+      next unless element == secret[index]
 
-        # Replace the element in guess with nil.
-        guess[index] = nil
+      # Select current element in the feedback array using feedback_index as
+      # the index and set it to a red '.'.
+      @current_feedback[feedback_index] = '.'.red
 
-        # Increment the feedback_index variable.
-        feedback_index += 1
-      end
+      # Replace the element in secret with nil.
+      secret[index] = nil
+
+      # Replace the element in guess with nil.
+      guess[index] = nil
+
+      # Increment the feedback_index variable.
+      feedback_index += 1
     end
-    # Check for correct color in wrong place
 
+    # Check for correct color in wrong place
+    guess.each_with_index do |element, index|
+      # Check each guess element to see if it matches any color remaining
+      # in the secret array. Make sure to skip any nil elements that maybe
+      # have been introduced when checking for color and placement.
+      next unless secret.include?(element) && !element.nil?
+
+      # Select the current element in the feedback array using feedback_index
+      # and set it to a '.'.
+      @current_feedback[feedback_index] = '.'
+
+      # Find the index of the element in secret.
+      secret_index = secret.index(element)
+
+      # Replace the element in secret with nil.
+      secret[secret_index] = nil
+
+      # Replace the element in guess with nil.
+      guess[index] = nil
+
+      # Increment the feedbad_index variable.
+      feedback_index += 1
+    end
   end
 
   def check_for_win
     return unless @current_guess == @secret_code
 
-    puts "You win!"
+    puts 'You win!'
+    # Display winning code.
+    puts "|#{@current_guess[0]}|#{@current_guess[1]}|#{@current_guess[2]}|#{@current_guess[3]}|"
     exit
   end
 
@@ -187,6 +197,7 @@ class Mastermind
     puts "#{'1'.red} #{'2'.green} #{'3'.yellow} #{'4'.blue} #{'5'.pink} #{'6'.light_blue} 7 is empty"
   end
 
+  # Display the guess history along with feedback on choices.
   def display_history
     @guess_history.each_with_index do |v, i|
       puts "|#{v[0]}|#{v[1]}|#{v[2]}|#{v[3]}|#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][0]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][1]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][2]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][3]}|"
