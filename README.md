@@ -2,6 +2,9 @@
 This is a mastermind game to be played on the command line. It is programmed in
 Ruby.
 
+![Main Menu](/screenshots/menu.png)
+![Codebreaker Won](/screenshots/codebreaker_won.png)
+
 Multiple of the same color are allowed as are blank spaces. When entering colors
 to play enter each number individually. Feedback on guesses is returned in the
 following manner.
