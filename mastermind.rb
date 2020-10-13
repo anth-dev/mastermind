@@ -1,5 +1,27 @@
 # frozen_string_literal: true
 
+# This module handles displaying the game interface to the screen.
+module Displayable
+  def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
+    # Display the guess history and gameboard.
+    system 'clear'
+    display_history
+    puts '-' * 14
+    puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
+    puts '-' * 14
+
+    # List the selection options for the player.
+    puts "#{'1'.red} #{'2'.green} #{'3'.yellow} #{'4'.blue} #{'5'.pink} #{'6'.light_blue} 7 is empty"
+  end
+
+  # Display the guess history along with feedback on choices.
+  def display_history
+    @guess_history.each_with_index do |v, i|
+      puts "|#{v[0]}|#{v[1]}|#{v[2]}|#{v[3]}|#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][0]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][1]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][2]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][3]}|"
+    end
+  end
+end
+
 # This class adds support for colorful strings.
 class String
   def colorize(color_code)
@@ -33,6 +55,7 @@ end
 
 # This class makes Mastermind game objects.
 class Mastermind
+  include Displayable
   def initialize
     @secret_code = generate_random_code
     @current_guess = [' ', ' ', ' ', ' ']
@@ -250,25 +273,6 @@ class Mastermind
       display(@secret_code)
       puts '>'
       @secret_code[i] = handle_selection
-    end
-  end
-
-  def display(display_array = [' ', ' ', ' ', ' '], feedback_array = [' ', ' ', ' ', ' '])
-    # Display the guess history and gameboard.
-    system 'clear'
-    display_history
-    puts '-' * 14
-    puts "|#{display_array[0]}|#{display_array[1]}|#{display_array[2]}|#{display_array[3]}|#{feedback_array[0]}#{feedback_array[1]}#{feedback_array[2]}#{feedback_array[3]}| Guess: #{@number_of_guesses}"
-    puts '-' * 14
-
-    # List the selection options for the player.
-    puts "#{'1'.red} #{'2'.green} #{'3'.yellow} #{'4'.blue} #{'5'.pink} #{'6'.light_blue} 7 is empty"
-  end
-
-  # Display the guess history along with feedback on choices.
-  def display_history
-    @guess_history.each_with_index do |v, i|
-      puts "|#{v[0]}|#{v[1]}|#{v[2]}|#{v[3]}|#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][0]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][1]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][2]}#{@feedback_history[i].nil? ? ' ' : @feedback_history[i][3]}|"
     end
   end
 end
