@@ -37,9 +37,11 @@ end
 class Mastermind
 
   def initialize
-    @secret_code = generate_random_code
+    @secret_code = ['0'.red, '0'.green, '0'.yellow, '0'.blue]
+    # @secret_code = generate_random_code
     @current_guess = [' ', ' ', ' ', ' ']
     @guess_history = []
+    @current_feedback = [' ', ' ', ' ', ' ']
     @feedback_history = []
     @number_of_guesses = 1
     @solved = false
@@ -57,21 +59,12 @@ class Mastermind
   def take_turn
     # FIXME: After all 4 choices have been made feedback needs to be calculated
     #   to be displayed to the player and saved to the feedback history array.
-    #   - make instance variable to hold current feedback
+    #   - make instance variable to hold current feedback (or use method scope)
     #   - after the completed guess array has been made duplicate it and the secret
     #     code array and iterate over the duplicated guess array
-    #     - for each element of the guess array check if it is both the
-    #       correct color and in the correct place. If so then push '.'.red to
-    #       the feedback array and replace the corresponding element from the
-    #       duplicated secret code array with 'x' and do the same for the
-    #       duplicated guess array.
     #     - after iterating over it and placing red feedback pegs iterate over
     #       the guess array and do the same but checking for colors in the wrong
-    #       place
-
-
-    # note ^^^^^ check rules to see if all the black pegs need to be placed first
-    # can it be messed up if they aren't placed in the right order????
+    #       place *starting on*
 
     # For each of the four spots have the player input their choice and add
     # their choice to the current guess array.
@@ -84,12 +77,50 @@ class Mastermind
     # Check to see if they cracked the code!
     check_for_win
 
+    # Generate feedback to display to the player.
+    generate_feedback
+
     # After their guess has been made add it to the guess history.
     @guess_history.push(@current_guess)
     @current_guess = [' ', ' ', ' ', ' ']
 
+    # Add the generated feedback to the feedback history.
+    @feedback_history.push(@current_feedback)
+    @current_feedback = [' ', ' ', ' ', ' ']
+
     # Increment the number of guesses.
     @number_of_guesses += 1
+  end
+
+  def generate_feedback
+    # Clone the arrays we will be checking.
+    guess = @current_guess.clone
+    secret = @secret_code.clone
+
+    # Use a variable to track where at we are in the current feedback
+    # array.
+    feedback_index = 0
+
+    # Check each guess element for correct color & placement.
+    guess.each_with_index do |element, index|
+      # If it is the correct color in the correct spot, 
+      if element == secret[index]
+        # Select current element in the feedback array using feedback_index as
+        # the index and set it to a red '.'.
+        @current_feedback[feedback_index] = '.'.red
+        
+        # Replace the element in secret with nil.
+        secret[index] = nil
+
+        # Replace the element in guess with nil.
+        guess[index] = nil
+
+        # Increment the feedback_index variable.
+        feedback_index += 1
+      end
+    end
+    # Check for correct color in wrong place
+
   end
 
   def check_for_win
