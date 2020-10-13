@@ -242,7 +242,7 @@ class Mastermind
       ' '
     end
   end
-  
+
   def input_secret_code
     # Clear any currently set secret code so the display doesn't get confused.
     @secret_code = [' ', ' ', ' ', ' ']
