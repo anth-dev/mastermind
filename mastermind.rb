@@ -43,7 +43,7 @@ class Mastermind
     @solved = false
   end
 
-  def start
+  def start_codebreaker
     take_turn while @number_of_guesses <= 12
     puts "You lose! You're out of turns."
   end
@@ -203,14 +203,47 @@ class Mastermind
   end
 end
 
-system 'clear'
-puts '~' * 22
-puts 'Welcome to Mastermind!'
-puts '~' * 22
-puts ''
-puts 'Colors may be repeated and blank spaces are allowed.'
-puts 'Press enter to continue.'
-gets
+# TODO: Add a 2 player mode where one human picks the code and another tries
+#   to crack the code.
+
+# TODO: Change it from 'Enter to continue' to give a choice on being the
+#   codemaker or codebreaker. If they want to be the codemaker have them
+
+def display_main_menu
+  system 'clear'
+  puts '~' * 22
+  puts 'Welcome to Mastermind!'
+  puts '~' * 22
+  puts ''
+  puts 'Colors may be repeated and blank spaces are allowed.'
+  puts 'Enter your choice to continue.'
+  puts '1. Single Player - Codebreaker'
+  puts '2. Single Player - Codemaker **not working**'
+  puts '3. Local Multiplayer **not working**'
+  puts '4. Exit'
+  puts '>'
+end
+
+def handle_main_menu(game)
+  display_main_menu
+  selection = gets.chomp
+  case selection
+  when '1'
+    game.start_codebreaker
+  when '2'
+    display_main_menu
+    handle_main_menu(game)
+  when '3'
+    display_main_menu
+    handle_main_menu(game)
+  when '4'
+    exit
+  else
+    display_main_menu
+    handle_main_menu(game)
+  end
+end
 
 game = Mastermind.new
-game.start
+
+handle_main_menu(game)
